@@ -22,8 +22,6 @@ host_cpu_family = host_machine.cpu_family()
 
 if host_cpu_family.startswith('x86')
   cflags += ['-mfpmath=sse', '-msse2', '-DFRFUN7_X86=1']
-else
-  error('Only x86 systems are allowed.')
 endif
 
 
