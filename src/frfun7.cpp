@@ -1570,6 +1570,7 @@ static void process_plane(const uint8_t *srcp_orig, int src_pitch,
       if (by > dim_y - B) by = dim_y - B;
 
       uint8_t* dstp_curr_by = dstp_orig + dstp_pitch * by;
+      uint8_t* dstp_curr_sy = dstp_orig + dstp_pitch * sy;
       const uint8_t* srcp_curr_sy = srcp_orig + src_pitch * sy; // cpln(sx, sy)
       const uint8_t* srcp_curr_by = srcp_orig + src_pitch * by; // cpln(bx, by)
 
@@ -1582,6 +1583,7 @@ static void process_plane(const uint8_t *srcp_orig, int src_pitch,
         if (bx > dim_x - B) bx = dim_x - B;
 
         uint8_t* dstp = dstp_curr_by + bx;
+        uint8_t* dstp_s = dstp_curr_sy + sx;
         const uint8_t* srcp_s = srcp_curr_sy + sx; // cpln(sx, sy)
         const uint8_t* srcp_b = srcp_curr_by + bx; // cpln(bx, by)
 
@@ -1624,7 +1626,7 @@ static void process_plane(const uint8_t *srcp_orig, int src_pitch,
             (R == 2 ? (simd ? frcore_filter_overlap_b4r2_simd
                             : frcore_filter_overlap_b4r2_scalar)
                     : (simd ? frcore_filter_overlap_b4r3_simd
-                            : frcore_filter_overlap_b4r3_scalar))(srcp_b, src_pitch, srcp_prev_s, src_prev_pitch, dstp, dstp_pitch, thresh, inv_table, &weight);
+                            : frcore_filter_overlap_b4r3_scalar))(srcp_s, src_pitch, srcp_prev_s, src_prev_pitch, dstp_s, dstp_pitch, thresh, inv_table, &weight);
             k++;
           }
 
@@ -1634,7 +1636,7 @@ static void process_plane(const uint8_t *srcp_orig, int src_pitch,
             (R == 2 ? (simd ? frcore_filter_overlap_b4r2_simd
                             : frcore_filter_overlap_b4r2_scalar)
                     : (simd ? frcore_filter_overlap_b4r3_simd
-                            : frcore_filter_overlap_b4r3_scalar))(srcp_b, src_pitch, srcp_next_s, src_next_pitch, dstp, dstp_pitch, thresh, inv_table, &weight);
+                            : frcore_filter_overlap_b4r3_scalar))(srcp_s, src_pitch, srcp_next_s, src_next_pitch, dstp_s, dstp_pitch, thresh, inv_table, &weight);
           }
         }
         else
