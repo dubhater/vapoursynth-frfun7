@@ -1899,7 +1899,7 @@ static void VS_CC frfun7Create(const VSMap *in, VSMap *out, void *userData, VSCo
 
     int err;
 
-    double lambda = vsapi->propGetFloat(in, "lambda", 0, &err);
+    double lambda = vsapi->propGetFloat(in, "l", 0, &err);
     if (err)
         lambda = 1.1;
 
@@ -1986,7 +1986,7 @@ VS_EXTERNAL_API(void) VapourSynthPluginInit(VSConfigPlugin configFunc, VSRegiste
     configFunc("com.nodame.frfun7", "frfun7", "A spatial denoising filter", (3 << 16) | 5, 1, plugin);
     registerFunc("Frfun7",
                  "clip:clip;"
-                 "lambda:float:opt;"
+                 "l:float:opt;"
                  "t:float:opt;"
                  "tuv:float:opt;"
                  "p:int:opt;"
